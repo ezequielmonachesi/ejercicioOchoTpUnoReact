@@ -14,7 +14,7 @@ function App() {
           <Formulario></Formulario>
         </section>
       </Container>
-      <footer className="bg-dark py-5 text-light text-center">
+      <footer className="bg-dark py-5 text-light text-center mt-5">
         <p>&copy; Todos los derechos reservaods.</p>
       </footer>
     </>

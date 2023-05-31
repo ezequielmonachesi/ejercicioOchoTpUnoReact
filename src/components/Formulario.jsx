@@ -1,8 +1,8 @@
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 const Formulario = () => {
   return (
-    <Form className="mx-3 mt-3 ">
+    <Form className="mx-3 mt-3 py-3">
       <Form.Group className="mb-3" controlId="nombre">
         <Form.Label>Nombre</Form.Label>
         <Form.Control type="text" placeholder="Ingrese su nombre" />
@@ -19,6 +19,7 @@ const Formulario = () => {
         <Form.Label>Correo eletrónico</Form.Label>
         <Form.Control type="email" placeholder="name@example.com" />
       </Form.Group>
+      <Button variant='dark' type="submit">Enviar</Button>
     </Form>
   );
 };
