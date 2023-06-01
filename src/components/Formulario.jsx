@@ -10,17 +10,14 @@ const Formulario = () => {
     handleSubmit,
   } = useForm();
 
-  const [formularios, setFormularios] = useState([{}]);
-
-  const onSubmit = (data) => {
-    console.log(data);
-    alert('Datos Enviados');
-    setFormularios([...formularios, data]);
-    console.log(formularios)
-  };
+  const [formularios, setFormularios] = useState([]);
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="mx-3 mt-3 py-3">
+    <Form onSubmit={handleSubmit((data)=>{
+      setFormularios([data]);
+      alert('Datos Enviados');
+      console.log(data);
+    })} className="mx-3 mt-3 py-3">
       <Form.Group className="mb-3" controlId="nombre">
         <Form.Label>Nombre</Form.Label>
         <Form.Control
