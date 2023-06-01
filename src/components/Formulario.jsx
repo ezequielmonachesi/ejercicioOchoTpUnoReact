@@ -1,44 +1,69 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import validarDni from "./validarDni";
 
 const Formulario = () => {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dni, setDni] = useState("");
-  const [email, setEmail] = useState("");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setName("");
-    setLastName("");
-    setDni("");
-    setEmail("");
-    alert(
-      `Un nombre fue enviado: ${name}, un apellido: ${lastName}, un dni: ${dni}, un email: ${email}`
-    );
+  const [nombre, setNombre] = useState('');
+
+  const onSubmit = (data) => {
+    console.log(data);
+    alert('Datos Enviados');
   };
 
   return (
-    <Form onSubmit={handleChange} className="mx-3 mt-3 py-3">
+    <Form onSubmit={handleSubmit(onSubmit)} className="mx-3 mt-3 py-3">
       <Form.Group className="mb-3" controlId="nombre">
         <Form.Label>Nombre</Form.Label>
         <Form.Control
           type="text"
+          {...register("nombre", {
+            required: true,
+            maxLength: 20,
+            minLength: 3,
+          })}
           placeholder="Ingrese su nombre"
-          value={name}
-          name={name}
-          onChange={(e) => setName(e.target.value)}
         />
+        {errors.nombre?.type === "required" && (
+          <p className="text-danger small">* El campo es requerido.</p>
+        )}
+        {errors.nombre?.type === "minLength" && (
+          <p className="text-danger small">
+            * Debe tener más de 3 caracteres.{" "}
+          </p>
+        )}
+        {errors.nombre?.type === "maxLength" && (
+          <p className="text-danger small">
+            * Debe tener hasta 20 caracteres.{" "}
+          </p>
+        )}
       </Form.Group>
       <Form.Group className="mb-3" controlId="apellido">
         <Form.Label>Apellido</Form.Label>
         <Form.Control
           type="text"
+          {...register("apellido", {
+            required: true,
+            maxLength: 25,
+            minLength: 3,
+          })}
           placeholder="Ingrese su apellido"
-          value={lastName}
-          name={lastName}
-          onChange={(e) => setLastName(e.target.value)}
         />
+        {errors.apellido?.type === "required" && (
+          <p className="text-danger small">* El campo es requerido.</p>
+        )}
+        {errors.apellido?.type === "minLength" && (
+          <p className="text-danger small">* Debe tener más de 3 caracteres.</p>
+        )}
+        {errors.apellido?.type === "maxLength" && (
+          <p className="text-danger small">* Debe tener hasta 25 caracteres.</p>
+        )}
       </Form.Group>
       <Form.Group className="mb-3" controlId="dni">
         <Form.Label>
@@ -47,20 +72,24 @@ const Formulario = () => {
         <Form.Control
           type="number"
           placeholder="Ingrese su dni"
-          value={dni}
-          name={dni}
-          onChange={(e) => setDni(e.target.value)}
+          {...register("dni",{
+            validate: validarDni
+          })}
         />
+        {errors.dni && <p className="text-danger small">* El dni debe estar entre 20.000 y 80.000.000</p>}
       </Form.Group>
       <Form.Group className="mb-3" controlId="email">
         <Form.Label>Correo eletrónico</Form.Label>
         <Form.Control
           type="email"
           placeholder="name@example.com"
-          value={email}
-          name={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register("email", {
+            pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+            required: true
+          })}
         />
+        {errors.email?.type === "pattern" && <p className="text-danger small">* Ingrese un mail valido.</p>}
+        {errors.email?.type === "required" && <p className="text-danger small">* El campo es requerido.</p>}
       </Form.Group>
       <Button variant="dark" type="submit">
         Enviar
