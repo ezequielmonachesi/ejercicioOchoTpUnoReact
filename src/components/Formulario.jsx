@@ -10,11 +10,13 @@ const Formulario = () => {
     handleSubmit,
   } = useForm();
 
-  const [nombre, setNombre] = useState('');
+  const [formularios, setFormularios] = useState([{}]);
 
   const onSubmit = (data) => {
     console.log(data);
     alert('Datos Enviados');
+    setFormularios([...formularios, data]);
+    console.log(formularios)
   };
 
   return (
